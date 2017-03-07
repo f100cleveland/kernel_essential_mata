@@ -2087,11 +2087,11 @@ blk_qc_t generic_make_request(struct bio *bio)
 		struct request_queue *q = bdev_get_queue(bio->bi_bdev);
 
 		if (likely(blk_queue_enter(q, __GFP_DIRECT_RECLAIM) == 0)) {
-			struct bio_list lower, same;
+			struct bio_list lower, same, hold;
 
 			/* Create a fresh bio_list for all subordinate requests */
-			bio_list_on_stack[1] = bio_list_on_stack[0];
-			bio_list_init(&bio_list_on_stack[0]);
+			hold = bio_list_on_stack;
+			bio_list_init(&bio_list_on_stack);
 
 			ret = q->make_request_fn(q, bio);
 
@@ -2101,19 +2101,19 @@ blk_qc_t generic_make_request(struct bio *bio)
 			 */
 			bio_list_init(&lower);
 			bio_list_init(&same);
-			while ((bio = bio_list_pop(&bio_list_on_stack[0])) != NULL)
+			while ((bio = bio_list_pop(&bio_list_on_stack)) != NULL)
 				if (q == bdev_get_queue(bio->bi_bdev))
 					bio_list_add(&same, bio);
 				else
 					bio_list_add(&lower, bio);
 			/* now assemble so we handle the lowest level first */
-			bio_list_merge(&bio_list_on_stack[0], &lower);
-			bio_list_merge(&bio_list_on_stack[0], &same);
-			bio_list_merge(&bio_list_on_stack[0], &bio_list_on_stack[1]);
+			bio_list_merge(&bio_list_on_stack, &lower);
+			bio_list_merge(&bio_list_on_stack, &same);
+			bio_list_merge(&bio_list_on_stack, &hold);
 		} else {
 			bio_io_error(bio);
 		}
-		bio = bio_list_pop(&bio_list_on_stack[0]);
+		bio = bio_list_pop(current->bio_list);
 	} while (bio);
 	current->bio_list = NULL; /* deactivate */
 
