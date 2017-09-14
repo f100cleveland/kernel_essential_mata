@@ -1718,13 +1718,16 @@ static int fanout_add(struct sock *sk, u16 id, u16 type_flags)
 	}
 	spin_unlock(&po->bind_lock);
 
-	if (err && !atomic_read(&match->sk_ref)) {
+	if (err && !refcount_read(&match->sk_ref)) {
 		list_del(&match->list);
 		kfree(match);
 	}
 
 out:
-	kfree(rollover);
+	if (err && rollover) {
+		kfree(rollover);
+		po->rollover = NULL;
+	}
 	mutex_unlock(&fanout_mutex);
 	return err;
 }
