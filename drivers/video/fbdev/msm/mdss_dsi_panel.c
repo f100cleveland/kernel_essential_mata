@@ -24,6 +24,10 @@
 #include <linux/string.h>
 #include <linux/display_state.h>
 
+#if defined(CONFIG_TRIPNDROID_FRAMEWORK) && !defined(CONFIG_TDF_CPU_HOTPLUG)
+#include <linux/td_framework.h>
+#endif
+
 #include "mdss_dsi.h"
 #include "mdss_dba_utils.h"
 #include "mdss_debug.h"
@@ -40,6 +44,10 @@ bool is_display_on()
 {
 	return display_on;
 }
+
+#if defined(CONFIG_TRIPNDROID_FRAMEWORK) && !defined(CONFIG_TDF_CPU_HOTPLUG)
+extern unsigned int tdf_suspend_state;
+#endif
 
 void mdss_dsi_panel_pwm_cfg(struct mdss_dsi_ctrl_pdata *ctrl)
 {
@@ -937,6 +945,11 @@ static int mdss_dsi_panel_on(struct mdss_panel_data *pdata)
 	display_on = true;
 	
     pr_err("%s start\n", __func__);
+
+#if defined(CONFIG_TRIPNDROID_FRAMEWORK) && !defined(CONFIG_TDF_CPU_HOTPLUG)
+       tdf_suspend_state = 0;
+#endif
+
 	pinfo = &pdata->panel_info;
 	ctrl = container_of(pdata, struct mdss_dsi_ctrl_pdata,
 				panel_data);
@@ -1043,6 +1056,10 @@ static int mdss_dsi_panel_off(struct mdss_panel_data *pdata)
 	}
 	
 	display_on = false;
+
+#if defined(CONFIG_TRIPNDROID_FRAMEWORK) && !defined(CONFIG_TDF_CPU_HOTPLUG)
+       tdf_suspend_state = 1;
+#endif
 
 end:
 	pr_debug("%s:-\n", __func__);
