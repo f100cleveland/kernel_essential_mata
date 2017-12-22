@@ -13,10 +13,10 @@ THREAD="-j$(grep -c ^processor /proc/cpuinfo)"
 KERNEL="Image"
 DTBIMAGE="dtb"
 export CROSS_COMPILE=${HOME}/android/uberbuild/out/aarch64-linux-android-4.9/bin/aarch64-linux-android-
-DEFCONFIG="mata_defconfig"
+DEFCONFIG="rey_defconfig"
 
 # Kernel Details
-VER=".R0"
+VER=".R1"
 
 # Paths
 KERNEL_DIR=`pwd`
