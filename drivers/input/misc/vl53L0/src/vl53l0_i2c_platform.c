@@ -22,7 +22,7 @@
 #include <linux/i2c.h>
 #include <linux/module.h>
 #include <linux/delay.h>
-#include "..//stmvl53l0-i2c.h"
+#include "../stmvl53l0-i2c.h"
 #include "../stmvl53l0-cci.h"
 
 #include "vl53l0_platform.h"
