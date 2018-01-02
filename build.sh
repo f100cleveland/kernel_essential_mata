@@ -9,30 +9,30 @@ restore='\033[0m'
 clear
 
 # Resources
-THREAD="-j$(grep -c ^processor /proc/cpuinfo)"
+THREAD="-j30"
 KERNEL="Image"
 DTBIMAGE="dtb"
-export CLANG_PATH=~/android/clang/clang-4479392/bin/
+export CLANG_PATH=${HOME}/Downloads/DTC-6.0/bin/
 export PATH=${CLANG_PATH}:${PATH}
 export CLANG_TRIPLE=aarch64-linux-gnu-
-export CROSS_COMPILE=${HOME}/android/uberbuild/out/aarch64-linux-android-4.9/bin/aarch64-linux-android-
-DEFCONFIG="rey_defconfig"
+export CROSS_COMPILE=${HOME}/Downloads/aarch64-linux-android-4.9/bin/aarch64-linux-android-
+DEFCONFIG="mata_defconfig"
 
 # Kernel Details
-VER=".R3"
+VER=".ph1-clang"
 
 # Paths
 KERNEL_DIR=`pwd`
-REPACK_DIR="${HOME}/android/AK-OnePone-AnyKernel2"
-PATCH_DIR="${HOME}/android/AK-OnePone-AnyKernel2/patch"
-MODULES_DIR="${HOME}/android/AK-OnePone-AnyKernel2/modules"
-ZIP_MOVE="${HOME}/android/AK-releases"
-ZIMAGE_DIR="${HOME}/android/mata/arch/arm64/boot/"
+REPACK_DIR="${HOME}/kernels/AnyKernel"
+PATCH_DIR="${HOME}/kernels/AnyKernel/patch"
+MODULES_DIR="${HOME}/kernels/AnyKernel/modules"
+ZIP_MOVE="${HOME}/kernels/fuckery-out"
+ZIMAGE_DIR="${HOME}/kernels/ph1/fuckery/arch/arm64/boot/"
 
 # Functions
 function clean_all {
 		rm -rf $MODULES_DIR/*
-		cd ~/android/mata/out/kernel
+		cd ~/kernels/ph1/fuckery/arch/arm64/boot
 		rm -rf $DTBIMAGE
 		git reset --hard > /dev/null 2>&1
 		git clean -f -d > /dev/null 2>&1
@@ -58,12 +58,12 @@ function make_dtb {
 }
 
 function make_boot {
-		cp -vr $ZIMAGE_DIR/Image.gz-dtb ~/android/AnyKernel2/zImage
+		cp -vr $ZIMAGE_DIR/Image.gz-dtb ~/kernels/AnyKernel/zImage
 }
 
 
 function make_zip {
-		cd ~/android/AnyKernel2
+		cd ~/kernels/AnyKernel
 		zip -r9 `echo $AK_VER`.zip *
 		mv  `echo $AK_VER`.zip $ZIP_MOVE
 		cd $KERNEL_DIR
@@ -75,20 +75,20 @@ DATE_START=$(date +"%s")
 
 echo -e "${green}"
 echo "-----------------"
-echo "Making Rey Kernel:"
+echo "Making Fuckery Kernel:"
 echo "-----------------"
 echo -e "${restore}"
 
 
 # Vars
-BASE_AK_VER="Rey"
+BASE_AK_VER="fuckery"
 AK_VER="$BASE_AK_VER$VER"
 export LOCALVERSION=~`echo $AK_VER`
 export LOCALVERSION=~`echo $AK_VER`
 export ARCH=arm64
 export SUBARCH=arm64
-export KBUILD_BUILD_USER=DespairFactor
-export KBUILD_BUILD_HOST=DarkRoom
+export KBUILD_BUILD_USER=dustin
+export KBUILD_BUILD_HOST=hoonicorn
 
 echo
 
