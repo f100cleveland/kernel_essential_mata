@@ -12,14 +12,14 @@ clear
 THREAD="-j30"
 KERNEL="Image"
 DTBIMAGE="dtb"
-export CLANG_PATH=${HOME}/Downloads/DTC-6.0/bin/
+export CLANG_PATH=${HOME}/Downloads/clang/clang-4479392/bin/
 export PATH=${CLANG_PATH}:${PATH}
 export CLANG_TRIPLE=aarch64-linux-gnu-
 export CROSS_COMPILE=${HOME}/Downloads/aarch64-linux-android-4.9/bin/aarch64-linux-android-
 DEFCONFIG="mata_defconfig"
 
 # Kernel Details
-VER=".ph1-clang"
+VER=".ph1-clang-eas"
 
 # Paths
 KERNEL_DIR=`pwd`
