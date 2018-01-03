@@ -19,7 +19,7 @@ export CROSS_COMPILE=${HOME}/Downloads/aarch64-linux-android-4.9/bin/aarch64-lin
 DEFCONFIG="mata_defconfig"
 
 # Kernel Details
-VER=".ph1-clang-eas"
+VER=".ph1-clang-eas-R1"
 
 # Paths
 KERNEL_DIR=`pwd`
