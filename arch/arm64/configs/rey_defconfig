@@ -275,7 +275,7 @@ CONFIG_MODULE_UNLOAD=y
 CONFIG_MODULE_FORCE_UNLOAD=y
 CONFIG_MODVERSIONS=y
 # CONFIG_MODULE_SRCVERSION_ALL is not set
-@ CONFIG_MODULE_SIG is not set
+# CONFIG_MODULE_SIG is not set
 # CONFIG_MODULE_SIG_FORCE is not set
 # CONFIG_MODULE_SIG_ALL is not set
 # CONFIG_MODULE_SIG_SHA1 is not set
@@ -398,6 +398,8 @@ CONFIG_PCI_LABEL=y
 #
 # Kernel Features
 #
+CONFIG_ADRENO_IDLER=y
+CONFIG_DYNAMIC_STUNE_BOOST=y
 
 #
 # ARM errata workarounds via the alternatives framework
