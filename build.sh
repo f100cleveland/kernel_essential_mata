@@ -19,7 +19,7 @@ export CROSS_COMPILE=${HOME}/Downloads/aarch64-linux-android-4.9/bin/aarch64-lin
 DEFCONFIG="rey_defconfig"
 
 # Kernel Details
-VER=".ph1-clang-eas"
+VER=".ph1-clang-r4"
 
 # Paths
 KERNEL_DIR=`pwd`
@@ -43,8 +43,8 @@ function clean_all {
 
 function make_kernel {
 		echo
-		make $DEFCONFIG
-		make $THREAD
+		make CC=clang $DEFCONFIG
+		make CC=clang -j30
 
 }
 
