@@ -19,7 +19,7 @@ export CROSS_COMPILE=${HOME}/Downloads/aarch64-linux-android-4.9/bin/aarch64-lin
 DEFCONFIG="rey_defconfig"
 
 # Kernel Details
-VER=".ph1-clang-r4"
+VER=".ph1-clang-r4.1"
 
 # Paths
 KERNEL_DIR=`pwd`
