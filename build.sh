@@ -12,7 +12,7 @@ clear
 THREAD="-j30"
 KERNEL="Image"
 DTBIMAGE="dtb"
-export CLANG_PATH=${HOME}/Downloads/clang/clang-4523590/bin/
+export CLANG_PATH=${HOME}/Downloads/dtc7/bin/
 export PATH=${CLANG_PATH}:${PATH}
 export CLANG_TRIPLE=aarch64-linux-gnu-
 export CROSS_COMPILE=${HOME}/Downloads/aarch64-linux-android-4.9/bin/aarch64-linux-android-
