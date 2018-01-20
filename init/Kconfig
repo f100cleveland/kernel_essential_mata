@@ -60,9 +60,6 @@ config ZEN_INTERACTIVE
 	    Ondemand coarse upscaling limit:  80 %  ->  45 %
 	    Ondemand fine upscaling limit..:  95 %  ->  45 %
 
-	 --- CPU Frequency Scaling ---
-	    Ondemand down scaling factor...:   1    ->  10
-
 config BROKEN
 	bool
 
