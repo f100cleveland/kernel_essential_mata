@@ -399,8 +399,8 @@ CONFIG_PCI_LABEL=y
 #
 # Kernel Features
 #
-CONFIG_ADRENO_IDLER=y
-CONFIG_DYNAMIC_STUNE_BOOST=y
+# CONFIG_ADRENO_IDLER is not set 
+# CONFIG_DYNAMIC_STUNE_BOOST is not set 
 
 #
 # ARM errata workarounds via the alternatives framework
