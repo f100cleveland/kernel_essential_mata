@@ -19,7 +19,7 @@ export CROSS_COMPILE=${HOME}/Downloads/aarch64-linux-android-4.9/bin/aarch64-lin
 DEFCONFIG="fuckery_defconfig"
 
 # Kernel Details
-VER=".ph1-dtc7-5.2"
+VER=".ph1-dtc7-5.3"
 
 # Paths
 KERNEL_DIR=`pwd`
