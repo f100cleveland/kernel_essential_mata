@@ -2949,17 +2949,7 @@ enum tfa_error tfa_start(int next_profile, int *vstep)
 		return	tfa_error_bad_param;
 	}
 
-	for (dev = 0; dev < devcount; dev++) {
-		/* HTC_AUD_START - Turn off Bottom SPK in Receiver mode */
-		if (!strncmp("receiver",
-			     tfaContProfileName(dev, next_profile),
-			     DSTRLEN("receiver")) &&
-		    handles_local[dev].upper_spk == false) {
-			tfa_mute_bottom(dev);
-			continue;
-		}
-		/* HTC_AUD_END */
-
+	for( dev=0; dev < devcount; dev++) {
 		err = tfaContOpen(dev);
 		if ( err != Tfa98xx_Error_Ok)
 			goto error_exit;
@@ -3012,14 +3002,7 @@ enum tfa_error tfa_start(int next_profile, int *vstep)
 		}
 	}
 
-	for (dev = 0; dev < devcount; dev++) {
-		/* HTC_AUD - Skip Bottom speaker setting in Receiver mode */
-		if (!strncmp("receiver",
-			     tfaContProfileName(dev, next_profile),
-			     DSTRLEN("receiver")) &&
-		    handles_local[dev].upper_spk == false)
-			continue;
-
+	for( dev=0; dev < devcount; dev++) {
 		/* check if the profile and steps are the one we want */
 		/* was it not done already */
 		if (( next_profile != active_profile && active_profile != -1)
@@ -3077,14 +3060,8 @@ error_exit:
 	if (tfa98xx_runtime_verbose && tfa98xx_dev_family(dev) == 2)
 		show_current_state(dev);
 
-	for (dev = 0; dev < devcount; dev++) {
-		/* HTC_AUD - Skip Bottom speaker setting in Receiver mode */
-		if (!strncmp("receiver",
-			     tfaContProfileName(dev, next_profile),
-			     DSTRLEN("receiver")) &&
-		    handles_local[dev].upper_spk == false)
-			continue;
-		tfaRunUnmute(dev); /* unmute */
+	for( dev=0; dev < devcount; dev++) {
+		tfaRunUnmute(dev);	/* unmute */
 		tfaContClose(dev); /* close all of them */
 	}
 
@@ -3313,3 +3290,4 @@ int tfa_set_swvstep(Tfa98xx_handle_t handle, unsigned short new_value) {
 
 	return active_value;
 }
+

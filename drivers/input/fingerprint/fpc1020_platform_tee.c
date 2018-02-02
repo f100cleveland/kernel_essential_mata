@@ -173,7 +173,7 @@ static ssize_t hw_reset_set(struct device *dev,
 	int rc;
 	struct fpc1020_data *fpc1020 = dev_get_drvdata(dev);
 
-	if (!strncmp(buf, "reset", DSTRLEN("reset"))) {
+	if (!strncmp(buf, "reset", strlen("reset"))) {
 		mutex_lock(&fpc1020->lock);
 		rc = hw_reset(fpc1020);
 		mutex_unlock(&fpc1020->lock);
@@ -186,91 +186,6 @@ static ssize_t hw_reset_set(struct device *dev,
 static DEVICE_ATTR(hw_reset, S_IWUSR, NULL, hw_reset_set);
 
 /**
- * Will setup GPIOs, and regulators to correctly initialize the touch sensor to
- * be ready for work.
- *
- * In the correct order according to the sensor spec this function will
- * enable/disable regulators, and reset line, all to set the sensor in a
- * correct power on or off state "electrical" wise.
- *
- * @see  device_prepare_set
- * @note This function will not send any commands to the sensor it will only
- *       control it "electrically".
- */
-static int device_prepare(struct fpc1020_data *fpc1020, bool enable)
-{
-	int rc;
-
-	mutex_lock(&fpc1020->lock);
-	if (enable && !fpc1020->prepared) {
-		fpc1020->prepared = true;
-		select_pin_ctl(fpc1020, "fpc1020_reset_reset");
-
-		rc = vreg_setup(fpc1020, "vcc_spi", true);
-		if (rc)
-			goto exit;
-
-		rc = vreg_setup(fpc1020, "vdd_io", true);
-		if (rc)
-			goto exit_1;
-
-		rc = vreg_setup(fpc1020, "vdd_ana", true);
-		if (rc)
-			goto exit_2;
-
-		usleep_range(PWR_ON_SLEEP_MIN_US, PWR_ON_SLEEP_MAX_US);
-
-		/* As we can't control chip select here the other part of the
-		 * sensor driver eg. the TEE driver needs to do a _SOFT_ reset
-		 * on the sensor after power up to be sure that the sensor is
-		 * in a good state after power up. Okeyed by ASIC.
-		 */
-
-		(void)select_pin_ctl(fpc1020, "fpc1020_reset_active");
-	} else if (!enable && fpc1020->prepared) {
-		rc = 0;
-		(void)select_pin_ctl(fpc1020, "fpc1020_reset_reset");
-
-		usleep_range(PWR_ON_SLEEP_MIN_US, PWR_ON_SLEEP_MAX_US);
-
-		(void)vreg_setup(fpc1020, "vdd_ana", false);
-exit_2:
-		(void)vreg_setup(fpc1020, "vdd_io", false);
-exit_1:
-		(void)vreg_setup(fpc1020, "vcc_spi", false);
-exit:
-		fpc1020->prepared = false;
-	} else {
-		rc = 0;
-	}
-	mutex_unlock(&fpc1020->lock);
-
-	return rc;
-}
-
-/**
- * sysfs node to enable/disable (power up/power down) the touch sensor
- *
- * @see device_prepare
- */
-static ssize_t device_prepare_set(struct device *dev,
-	struct device_attribute *attr, const char *buf, size_t count)
-{
-	int rc;
-	struct fpc1020_data *fpc1020 = dev_get_drvdata(dev);
-
-	if (!strncmp(buf, "enable", DSTRLEN("enable")))
-		rc = device_prepare(fpc1020, true);
-	else if (!strncmp(buf, "disable", DSTRLEN("disable")))
-		rc = device_prepare(fpc1020, false);
-	else
-		return -EINVAL;
-
-	return rc ? rc : count;
-}
-static DEVICE_ATTR(device_prepare, S_IWUSR, NULL, device_prepare_set);
-
-/**
  * sysfs node for controlling whether the driver is allowed
  * to wake up the platform on interrupt.
  */
@@ -281,9 +196,9 @@ static ssize_t wakeup_enable_set(struct device *dev,
 	ssize_t ret = count;
 
 	mutex_lock(&fpc1020->lock);
-	if (!strncmp(buf, "enable", DSTRLEN("enable")))
+	if (!strncmp(buf, "enable", strlen("enable")))
 		atomic_set(&fpc1020->wakeup_enabled, 1);
-	else if (!strncmp(buf, "disable", DSTRLEN("disable")))
+	else if (!strncmp(buf, "disable", strlen("disable")))
 		atomic_set(&fpc1020->wakeup_enabled, 0);
 	else
 		ret = -EINVAL;
@@ -535,3 +450,4 @@ MODULE_LICENSE("GPL v2");
 MODULE_AUTHOR("Aleksej Makarov");
 MODULE_AUTHOR("Henrik Tillman <henrik.tillman@fingerprints.com>");
 MODULE_DESCRIPTION("FPC1020 Fingerprint sensor device driver.");
+
