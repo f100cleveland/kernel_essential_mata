@@ -4022,9 +4022,11 @@ static void ffs_closed(struct ffs_data *ffs)
 
 	ffs_dev_unlock();
 
-	if (test_bit(FFS_FL_BOUND, &ffs->flags))
-		unregister_gadget_item(ci);
-	return;
+	if (test_bit(FFS_FL_BOUND, &ffs->flags)) {
+		unregister_gadget_item(opts->
+			       func_inst.group.cg_item.ci_parent->ci_parent);
+		ffs_log("unreg gadget done");
+	}
 done:
 	ffs_log("exit");
 }
@@ -4063,3 +4065,4 @@ static char *ffs_prepare_buffer(const char __user *buf, size_t len)
 DECLARE_USB_FUNCTION_INIT(ffs, ffs_alloc_inst, ffs_alloc);
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Michal Nazarewicz");
+
