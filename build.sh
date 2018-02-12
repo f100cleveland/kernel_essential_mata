@@ -16,7 +16,7 @@ export CLANG_PATH=${HOME}/Downloads/dtc7/bin/
 export PATH=${CLANG_PATH}:${PATH}
 export CLANG_TRIPLE=aarch64-linux-gnu-
 export CROSS_COMPILE=${HOME}/Downloads/aarch64-linux-android-4.9/bin/aarch64-linux-android-
-DEFCONFIG="fuckery_defconfig"
+DEFCONFIG="mata_defconfig"
 
 # Kernel Details
 VER=".ph1-ob3-v1"
