@@ -879,7 +879,6 @@ static const __u8 bos_desc_len[256] = {
 	[USB_SS_CAP_TYPE]           = USB_DT_USB_SS_CAP_SIZE,
 	[USB_SSP_CAP_TYPE]          = USB_DT_USB_SSP_CAP_SIZE(1),
 	[CONTAINER_ID_TYPE]         = USB_DT_USB_SS_CONTN_ID_SIZE,
-	[USB_PTM_CAP_TYPE]          = USB_DT_USB_PTM_ID_SIZE,
 };
 
 /* Get BOS descriptor set */
@@ -981,9 +980,14 @@ int usb_get_bos_descriptor(struct usb_device *dev)
 			dev->bos->ss_id =
 				(struct usb_ss_container_id_descriptor *)buffer;
 			break;
-		case USB_PTM_CAP_TYPE:
-			dev->bos->ptm_cap =
-				(struct usb_ptm_cap_descriptor *)buffer;
+		case USB_CAP_TYPE_CONFIG_SUMMARY:
+			/* one such desc per configuration */
+			if (!dev->bos->num_config_summary_desc)
+				dev->bos->config_summary =
+				(struct usb_config_summary_descriptor *)buffer;
+
+			dev->bos->num_config_summary_desc++;
+			break;
 		default:
 			break;
 		}
