@@ -16,10 +16,10 @@ export CLANG_PATH=${HOME}/Downloads/dtc7/bin/
 export PATH=${CLANG_PATH}:${PATH}
 export CLANG_TRIPLE=aarch64-linux-gnu-
 export CROSS_COMPILE=${HOME}/Downloads/aarch64-linux-android-4.9/bin/aarch64-linux-android-
-DEFCONFIG="fuckery_defconfig"
+DEFCONFIG="lineageos_mata_defconfig"
 
 # Kernel Details
-VER=".ph1-ob3-v1"
+VER=".carbon-fuckery-v1"
 
 # Paths
 KERNEL_DIR=`pwd`
