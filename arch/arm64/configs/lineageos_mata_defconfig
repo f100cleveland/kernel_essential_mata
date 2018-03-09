@@ -388,6 +388,7 @@ CONFIG_PCI_LABEL=y
 #
 # Kernel Features
 #
+CONFIG_ZEN_INTERACTIVE=y
 
 #
 # ARM errata workarounds via the alternatives framework
