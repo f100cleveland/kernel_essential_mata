@@ -19,7 +19,7 @@ export CROSS_COMPILE=${HOME}/Downloads/aarch64-linux-android-4.9/bin/aarch64-lin
 DEFCONFIG="lineageos_mata_defconfig"
 
 # Kernel Details
-VER=".carbon-v1.1"
+VER=".carbon-v1.2"
 
 # Paths
 KERNEL_DIR=`pwd`
